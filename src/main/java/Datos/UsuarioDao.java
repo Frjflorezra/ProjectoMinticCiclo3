@@ -36,7 +36,7 @@ public class UsuarioDao {
     }
     
     /**
-     * Metodo para agregar usuario cuando se logueen
+     * Metodo para agregar usuario cuando se haga el registro, No se validan usuarios repetidos
      * @param usuario
      */
     public static void agregarUsuario(Usuario usuario){

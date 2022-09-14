@@ -1,4 +1,5 @@
 Datos\UsuarioDao.class
 Datos\Conexion.class
+Servlets\RegistrarUsuario.class
 Modelo\Usuario.class
 proof.class
