@@ -79,9 +79,13 @@ public class RegistrarUsuario extends HttpServlet {
         String username = request.getParameter("user");
         String password = request.getParameter("password");
         Usuario toAdd = new Usuario(nombre, apellido, correo, username, password);
-        UsuarioDao.agregarUsuario(toAdd);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
-        dispatcher.forward(request, response);
+
+        if ( UsuarioDao.agregarUsuario(toAdd) ){
+            response.sendRedirect("http://localhost:8080/ListaTareas/index.html");
+        }else{
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/html/registro.html");
+            dispatcher.forward(request, response);
+        }
     }
 
     /**
@@ -93,5 +97,4 @@ public class RegistrarUsuario extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

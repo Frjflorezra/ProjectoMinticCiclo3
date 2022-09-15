@@ -16,7 +16,6 @@ import java.sql.SQLException;
  */
 public class proof {
     public static void main(String[] args) throws SQLException {
-        Usuario u = new Usuario("locaaa", "hpta", "okoko@gmal.com", "ajua", "ola lindo");
-        UsuarioDao.agregarUsuario(u);
+        
     }
 }

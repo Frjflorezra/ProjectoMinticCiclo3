@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>Material Design for Bootstrap</title>
+  <title>Log In</title>
   <!-- MDB icon -->
   <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
   <!-- Font Awesome -->
@@ -30,7 +30,7 @@
       background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
     }
   </style>
-  <section class="vh-100 gradient-custom">
+  <form action="ValidarUsuario" method="get" class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -43,12 +43,12 @@
                 <p class="text-white-50 mb-5">Porfavor Ingrese sus Credenciales</p>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                  <input type="text" name="username" class="form-control form-control-lg" />
                   <label class="form-label" for="typeEmailX">Usuario</label>
                 </div>
 
                 <div class="form-outline form-white mb-4">
-                  <input type="password" id="typePasswordX" class="form-control form-control-lg" />
+                  <input type="password" name = "password" class="form-control form-control-lg" />
                   <label class="form-label" for="typePasswordX">Contraseña</label>
                 </div>
 
@@ -57,7 +57,7 @@
               </div>
 
               <div>
-                <p class="mb-0">¿No tienes una cuenta? <a href="#" class="text-white-50 fw-bold">Registrate</a></p>
+                  <p class="mb-0">¿No tienes una cuenta? <a href="./html/registro.html" class="text-white-50 fw-bold">Registrate</a></p>
               </div>
 
             </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </form>
   <!-- End your project here-->
 
   <!-- MDB -->

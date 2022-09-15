@@ -5,6 +5,9 @@
  */
 package Modelo;
 
+import java.util.List;
+import java.util.Arrays;
+
 /**
  *
  * @author FELIPE
@@ -34,6 +37,17 @@ public class Usuario {
         this.correo = correo;
         this.username = username;
         this.password = password;
+    }
+    
+    
+    /**
+     * Metodo que retorna una lista con los atributos de un usuario ( Funcion : Faciltiar la validacion de los datos )
+     * @param u = usuario
+     * @return 
+     */
+    public List<String> getAtributos(){
+        String tmpAtributos[] = {this.getApellido() , this.getCorreo(), this.getNombre(), this.getPassword(), this.getUsername()};
+        return Arrays.asList(tmpAtributos); //Metodo que convierte un array estatico en una List<T>
     }
 
     public int getId() {
