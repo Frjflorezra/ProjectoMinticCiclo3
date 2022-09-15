@@ -103,6 +103,28 @@ public class UsuarioDao{
         return encontrado;
     }
     
+    public static String getNombre(String username){
+        System.out.println("yesss into");
+        String query = "SELECT * FROM usuario u WHERE u.username = ?";
+        String nombre = "";
+        try {
+            Connection conn = Conexion.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, username);
+            ResultSet set = stmt.executeQuery();
+            if(set.next()) {
+                System.out.println("YEEEEES " + set.getString("nombre"));
+                nombre += set.getString("nombre");
+                nombre += " " + set.getString("apellido");
+            }
+            conn.close();
+            stmt.close();
+            set.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nombre;
+    }
     
     public static boolean autenticarUsuario(String username, String password){
         boolean credencialesValidas = false;

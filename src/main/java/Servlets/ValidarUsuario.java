@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -61,6 +62,10 @@ public class ValidarUsuario extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if(UsuarioDao.autenticarUsuario(username, password)){
+            String nombre = UsuarioDao.getNombre(username);
+            HttpSession session=request.getSession();  
+            session.setAttribute("username", username);
+            session.setAttribute("nombre", nombre);
             response.sendRedirect("http://localhost:8080/ListaTareas/html/taskList.jsp");
         }
     }

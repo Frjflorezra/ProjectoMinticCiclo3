@@ -1,6 +1,9 @@
 Datos\UsuarioDao.class
 Datos\Conexion.class
-Servlets\ValidarUsuario.class
 Servlets\RegistrarUsuario.class
+Datos\TareaDao.class
 Modelo\Usuario.class
+Servlets\RegistrarTarea.class
+Servlets\ValidarUsuario.class
+Modelo\Tarea.class
 proof.class
