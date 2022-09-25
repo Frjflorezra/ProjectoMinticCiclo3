@@ -5,8 +5,10 @@
  */
 package Datos;
 
+import Modelo.Tarea;
 import Modelo.Usuario;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,14 +106,13 @@ public class UsuarioDao{
     }
     
     public static String getNombre(String username){
-        System.out.println("yesss into");
         String query = "SELECT * FROM usuario u WHERE u.username = ?";
         String nombre = "";
         try {
             Connection conn = Conexion.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
-            ResultSet set = stmt.executeQuery();
+            ResultSet set = stmt.executeQuery(); 
             if(set.next()) {
                 System.out.println("YEEEEES " + set.getString("nombre"));
                 nombre += set.getString("nombre");
@@ -125,6 +126,27 @@ public class UsuarioDao{
         }
         return nombre;
     }
+    
+    public static int getID(String username){
+        String query = "SELECT u.id_usuario FROM usuario u WHERE u.username = ?";
+        int ID = -1;
+        try {
+            Connection conn = Conexion.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, username);
+            ResultSet set = stmt.executeQuery(); 
+            if(set.next()) {
+                ID = set.getInt("id_usuario");
+            }
+            conn.close();
+            stmt.close();
+            set.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return ID;
+    }
+    
     
     public static boolean autenticarUsuario(String username, String password){
         boolean credencialesValidas = false;
@@ -148,5 +170,30 @@ public class UsuarioDao{
             ex.printStackTrace(System.out);
         }
         return credencialesValidas;
+    }
+    
+    public static ArrayList<Tarea> getTareas(int id){
+        ArrayList<Tarea> tareas = new ArrayList();
+        try {
+            //Mala practica hacer tan larga una linea, usar StringBuffer y añadir segmentos de la Query
+            String query = "SELECT t.titulo, t.prioridad, t.id_tarea FROM tarea t WHERE t.id_usuario = ?";
+            Connection conn = Conexion.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet data = stmt.executeQuery();
+            while(data.next()){
+                String titulo = data.getString("titulo");
+                int prioridad = data.getInt("prioridad"); 
+                Tarea tarea = new Tarea(titulo, prioridad, id);
+                System.out.println(tarea.toString());
+                tareas.add(tarea);
+            }
+            conn.close();
+            stmt.close();
+            data.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return tareas;
     }
 }

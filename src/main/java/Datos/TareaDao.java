@@ -22,12 +22,13 @@ public class TareaDao {
         boolean tareaValida = TareaDao.validarTarea(tarea);
 
         if(tareaValida){
-            String query = "INSERT INTO tarea (titulo, prioridad) VALUES (?,?)";
+            String query = "INSERT INTO tarea (titulo, prioridad, id_usuario) VALUES (?,?,?)";
             try {
                 Connection conn = Conexion.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query);
                 stmt.setString(1, tarea.getTitulo());
                 stmt.setInt(2, tarea.getPrioridad());
+                stmt.setInt(3, tarea.getIdOwner());
                 stmt.executeUpdate();
                 conn.close();
                 stmt.close();

@@ -66,7 +66,7 @@ public class ValidarUsuario extends HttpServlet {
             HttpSession session=request.getSession();  
             session.setAttribute("username", username);
             session.setAttribute("nombre", nombre);
-            response.sendRedirect("http://localhost:8080/ListaTareas/html/taskList.jsp");
+            response.sendRedirect("http://localhost:8080/ListaTareas/html/taskList.jsp"); //Cambar cuando se despliegue :D
         }
     }
 

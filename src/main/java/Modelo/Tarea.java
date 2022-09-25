@@ -13,14 +13,16 @@ public class Tarea {
     private int id;
     private String titulo;
     private int prioridad;
+    private int id_owner;
     
     public Tarea(){
         
     }
 
-    public Tarea(String titulo, int prioridad) {
+    public Tarea(String titulo, int prioridad, int id_owner) {
         this.titulo = titulo;
         this.prioridad = prioridad;
+        this.id_owner = id_owner;
     }
     
     public int validarPrioridad(String dataFormPrioridad){
@@ -47,5 +49,14 @@ public class Tarea {
 
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
+    }
+    
+    public int getIdOwner() {
+        return this.id_owner;
+    }
+    
+    @Override
+    public String toString(){
+        return "{ Titulo: " + this.titulo + ", Prioridad " + this.prioridad + "}\n";
     }
 }

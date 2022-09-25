@@ -76,10 +76,11 @@ public class RegistrarTarea extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String titulo = request.getParameter("titulo");
         String prioridad = request.getParameter("prioridad");
+        int idOwner = Integer.parseInt( request.getParameter("idOwner") );
         if(prioridadValida(prioridad)){
             int prioridad_real = Integer.parseInt(prioridad);
-            Tarea tarea = new Tarea(titulo , prioridad_real);
-            
+            Tarea tarea = new Tarea(titulo , prioridad_real, idOwner);
+
             if( TareaDao.agregarTarea(tarea) ){
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/html/taskList.jsp");
                 dispatcher.forward(request, response);
@@ -93,6 +94,8 @@ public class RegistrarTarea extends HttpServlet {
 
     
     private boolean prioridadValida(String prioridad){
+        prioridad = prioridad.trim();
+        if("".equals(prioridad)) return false;
         boolean isNumeric =  prioridad.matches("[+-]?\\d*(\\.\\d+)?");
         return  isNumeric;
     }
