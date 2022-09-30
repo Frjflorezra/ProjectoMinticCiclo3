@@ -72,7 +72,5 @@ public class TareaDao {
             ex.printStackTrace(System.out);
         }
         return encontrado;
-    }
-    
-    
+    }    
 }

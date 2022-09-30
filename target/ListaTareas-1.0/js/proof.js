@@ -1,8 +1,6 @@
 import swal from 'https://unpkg.com/sweetalert/dist/sweetalert.min.js';
 
-function validateData(){
-    const titulo =  document.forms["taskForm"]["titulo"].value;
-    const prioridad =  document.forms["taskForm"]["prioridad"].value;
+function validarDatos(titulo , prioridad){
     const nPrio = parseInt( prioridad );
     //VALIDAMOS QUE EL TITULO NO SEA VACIO
     if(titulo.trim() == "") {
