@@ -86,10 +86,8 @@ public class TareaDao {
             stmt.setInt(2, prioridad);
             stmt.setInt(3, id);
             stmt.executeUpdate();
-
             conn.close();
             stmt.close();
-            
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         }

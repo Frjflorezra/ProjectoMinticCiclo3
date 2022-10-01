@@ -5,6 +5,7 @@ Servlets\RegistrarUsuario.class
 Datos\TareaDao.class
 Modelo\Usuario.class
 Servlets\RegistrarTarea.class
+Servlets\BorrarTarea.class
 Servlets\ValidarUsuario.class
 Modelo\Tarea.class
 proof.class

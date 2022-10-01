@@ -77,7 +77,9 @@ public class EditarTarea extends HttpServlet {
         String titulo = request.getParameter("tituloE");
         int prioridad = Integer.parseInt(request.getParameter("prioridadE"));
         int id = Integer.parseInt( request.getParameter("inId") );
-        Tarea editada = new Tarea(titulo, prioridad, id);
+        int idOwner = Integer.parseInt( request.getParameter("idOwner") );
+        Tarea editada = new Tarea(titulo, prioridad, id, idOwner);
+        System.out.println(editada.toString() + "ID USER: " + idOwner );
         TareaDao.editarTarea(editada);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/html/taskList.jsp");
         dispatcher.forward(request, response);

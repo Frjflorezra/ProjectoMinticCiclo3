@@ -18,11 +18,18 @@ public class Tarea {
     public Tarea(){
         
     }
-
-    public Tarea(String titulo, int prioridad, int id) {
+    
+    public Tarea(String titulo, int prioridad, int id) {  //Para el registro
+        this.titulo = titulo;
+        this.prioridad = prioridad;
+        this.id_owner = id;
+    }
+    
+    public Tarea(String titulo, int prioridad, int id, int id_owner){
         this.titulo = titulo;
         this.prioridad = prioridad;
         this.id = id;
+        this.id_owner = id_owner;
     }
     
     public int validarPrioridad(String dataFormPrioridad){
@@ -32,7 +39,7 @@ public class Tarea {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getTitulo() {

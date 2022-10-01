@@ -98,7 +98,6 @@
                                                         msg = "Alta";
                                                         clase = "badge badge-danger";
                                                     }
-                                                    System.out.println("ID TAREA --> " + aux.getId());
                                             %>
                                             <tr>
                                                 <td scope="row"><span class="<%=clase%>"><%=msg%></span></td>
@@ -109,7 +108,7 @@
                                                     <button type="submit" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" value = "<%=aux.getId()%>" name = "editar">
                                                         Editar
                                                     </button>
-                                                    <button type="submit" class="btn btn-outline-danger ms-1">Eliminar</button>
+                                                    <button type="submit" class="btn btn-outline-danger ms-1" >Eliminar</button>
                                                 </td>
                                             </tr>
                                             <% }%> 
@@ -138,8 +137,8 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <input hidden="true" name = "inId" id = "inId" type="text" class="form-control" id="recipient-name">
+                                                            <input hidden="true" name = "idOwner" id = "idOwner" type="text" class="form-control" id="recipient-name">
                                                         </div>
-                                                        
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
@@ -161,90 +160,102 @@
         <!-- SCRIPT PARA LA CARGAR EL MODAL DE EDICION CON LA DATA RESPECTIVA DE LA TAREA -->
         <script>
             const editar = document.getElementsByName('editar');
-            for(const x of editar){
-                x.addEventListener('click' , () => {
+            for (const x of editar){
+                x.addEventListener('click', () => {
                     const id_tarea = x.value;
-                    const titulo_viejo = document.getElementById('titulo'+id_tarea).textContent;
-                    const prioridad_viejo = document.getElementById('priority'+id_tarea).textContent;
-                    document.getElementById('tituloE').value = titulo_viejo// tendria el ID
+                    const titulo_viejo = document.getElementById('titulo' + id_tarea).textContent;
+                    const prioridad_viejo = document.getElementById('priority' + id_tarea).textContent;
+                    document.getElementById('tituloE').value = titulo_viejo
                     document.getElementById('priorityE').value = prioridad_viejo
                     document.getElementById('inId').value = id_tarea
-                })   
+                    document.getElementById('idOwner').value = <%=id_user%>
+                })
             }
         </script>
-        
+
+        <!-- <script>
+            const eliminar = document.getElementsByName('eliminar');
+            for (const x of eliminar){
+                x.addEventListener('click', () => {
+                    const id_tarea = x.value;
+                    $({
+                        url : 'BorrarTarea',
+                        type: "POST",
+                        data : {id_tarea: id_tarea}
+                    })
+                })
+            }
+        </script> -->
+
         <script>
             const btnConfirm = document.getElementById('confirmarEdit')
             btnConfirm.addEventListener('click', async (e) => {
-                e.preventDefault()
-                const titulo = document.forms["FormEditar"]["tituloE"].value;
-                const prioridad = document.forms["FormEditar"]["prioridadE"].value;
-                const nPrio = parseInt(prioridad);
-
-                //VALIDAMOS QUE EL TITULO NO SEA VACIO
-                if (titulo.trim() == "") {
-                    swal("Oops", "El titulo de tu tarea no puede estar vacio", "error");
-                    return;
-                }
-                //VALIDAMOS LA PRIORIDAD
-                if (isNaN(nPrio)) {
-                    swal("Oops", "La prioridad de la Tarea debe ser numerica", "error");
-                    return;
-                }
-                if (nPrio < 0 || nPrio > 100) {
-                    swal("Oops", "La prioridad de la Tarea debe ser entre 0 y 100", "error");
-                    return;
-                }
-                await swal("Bien Hecho", "Tu tarea se ha editado Correctamente", "success")
-                        .then(( ) => {
-                            document.forms["FormEditar"].submit();
-                        });
+            e.preventDefault()
+            const titulo = document.forms["FormEditar"]["tituloE"].value;
+            const prioridad = document.forms["FormEditar"]["prioridadE"].value;
+            const nPrio = parseInt(prioridad);
+            //VALIDAMOS QUE EL TITULO NO SEA VACIO
+            if (titulo.trim() == "") {
+                swal("Oops", "El titulo de tu tarea no puede estar vacio", "error");
+                return;
+            }
+            //VALIDAMOS LA PRIORIDAD
+            if (isNaN(nPrio)) {
+                swal("Oops", "La prioridad de la Tarea debe ser numerica", "error");
+                return;
+            }
+            if (nPrio < 0 || nPrio > 100) {
+                swal("Oops", "La prioridad de la Tarea debe ser entre 0 y 100", "error");
+                return;
+            }
+            await swal("Bien Hecho", "Tu tarea se ha editado Correctamente", "success")
+                    .then(() => {
+                    document.forms["FormEditar"].submit();
+                    });
             })
         </script>
-        
+
         <!-- SCRIPT PARA LA VALIDACION DE DATOS DE LAS TAREAS A AGREGAR [ES REDUNTANTE PORQUE EN EL BACKEND TAMBIEN SE VALIDAN CON JAVA] -->
         <script>
             const btnSubmit = document.getElementById('zzz');
             btnSubmit.addEventListener('click', async (e) => {
-                e.preventDefault()
-                const titulo = document.forms["taskForm"]["titulo"].value;
-                const prioridad = document.forms["taskForm"]["prioridad"].value;
-                const nPrio = parseInt(prioridad);
-                console.log(typeof nPrio);
-                console.log(nPrio);
-
-                //VALIDAMOS QUE EL TITULO NO SEA VACIO
-                if (titulo.trim() == "") {
-                    swal("Oops", "El titulo de tu tarea no puede estar vacio", "error");
-                    return;
-                }
-                //VALIDAMOS LA PRIORIDAD
-                if (isNaN(nPrio)) {
-                    swal("Oops", "La prioridad de la Tarea debe ser numerica", "error");
-                    return;
-                }
-                if (nPrio < 0 || nPrio > 100) {
-                    swal("Oops", "La prioridad de la Tarea debe ser entre 0 y 100", "error");
-                    return;
-                }
-                await swal("Bien Hecho", "Tu tarea se ha registrado Correctamente", "success")
-                        .then(( ) => {
-                            document.forms["taskForm"].submit();
-                        });
+            e.preventDefault()
+                    const titulo = document.forms["taskForm"]["titulo"].value;
+            const prioridad = document.forms["taskForm"]["prioridad"].value;
+            const nPrio = parseInt(prioridad);
+            console.log(typeof nPrio);
+            console.log(nPrio);
+            //VALIDAMOS QUE EL TITULO NO SEA VACIO
+            if (titulo.trim() == "") {
+            swal("Oops", "El titulo de tu tarea no puede estar vacio", "error");
+            return;
+            }
+            //VALIDAMOS LA PRIORIDAD
+            if (isNaN(nPrio)) {
+            swal("Oops", "La prioridad de la Tarea debe ser numerica", "error");
+            return;
+            }
+            if (nPrio < 0 || nPrio > 100) {
+            swal("Oops", "La prioridad de la Tarea debe ser entre 0 y 100", "error");
+            return;
+            }
+            await swal("Bien Hecho", "Tu tarea se ha registrado Correctamente", "success")
+                    .then(() => {
+                    document.forms["taskForm"].submit();
+                    });
             })
         </script> 
 
-        <script>            
-
-            $('#exampleModal').on('show.bs.modal', function (event) {
+        <script>
+                $('#exampleModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var recipient = button.data('whatever') // Extract info from data-* attributes
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var modal = $(this)
                 /*modal.find('.modal-title').text('New message to ' + recipient)
-                modal.find('.modal-body input').val("hola mundo")*/
-            })
+                 modal.find('.modal-body input').val("hola mundo")*/
+            }   )
         </script>
         <!-- <script type="module" src="../js/proof.js"></script> -->
         <script type="text/javascript" src="../js/mdb.min.js"></script>
