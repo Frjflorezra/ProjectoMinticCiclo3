@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="../css/bootstrap-to-do-list.min.css"/>
         <link rel="stylesheet" href="../css/tareas.css"/>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     </head>
 
     <!-- Background color style :D -->
@@ -36,7 +37,35 @@
         String username = session.getAttribute("username").toString();
         int id_user = UsuarioDao.getID(username);
     %>
-
+    
+    <script>
+        function eliminarTarea(id){
+            swal({
+                title: "¿Estas Seguro?",
+                text: "Una vez que elimines tu tarea no podras recuperarla!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        method: "GET",
+                        url: "http://localhost:8080/ListaTareas/html/BorrarTarea?id_tarea="+id,
+                    })
+                    .done(
+                        swal("Poof! Tu tarea ha sido eliminada!", {
+                            icon: "success",
+                        })
+                        .then( () => window.location.href = "http://localhost:8080/ListaTareas/html/taskList.jsp" )     
+                    )
+                } else {
+                  swal("Tu tarea esta a salvo!");
+                }
+            });
+        }
+    </script>
+    
     <body class = "gradient-custom-2">
 
         <div>
@@ -98,6 +127,7 @@
                                                         msg = "Alta";
                                                         clase = "badge badge-danger";
                                                     }
+                                                    System.out.println("arr " + aux.toString());
                                             %>
                                             <tr>
                                                 <td scope="row"><span class="<%=clase%>"><%=msg%></span></td>
@@ -105,13 +135,17 @@
                                                 <td>
                                                     <span hidden="true" id = "titulo<%=aux.getId()%>"><%=aux.getTitulo()%></span>
                                                     <span hidden="true" id = "priority<%=aux.getId()%>"><%=aux.getPrioridad()%></span>
+                                                    <input hidden="true" value ="<%=aux.getId()%>" id = "<%=aux.getId()%>"/>
                                                     <button type="submit" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" value = "<%=aux.getId()%>" name = "editar">
                                                         Editar
                                                     </button>
-                                                    <button type="submit" class="btn btn-outline-danger ms-1" >Eliminar</button>
-                                                </td>
+                                                        
+                                                    <button onclick = "eliminarTarea(<%=aux.getId()%>);" class="btn btn-outline-danger ms-1">
+                                                        Eliminar
+                                                    </button> <!-- "BOTON" ELIMINAR -->
+                                                </td> 
                                             </tr>
-                                            <% }%> 
+                                            <%}%> 
                                             <!-- CIERRE DEL FOR DE TAREAS -->
                                         </tbody>
                                     </table>
@@ -173,20 +207,6 @@
             }
         </script>
 
-        <!-- <script>
-            const eliminar = document.getElementsByName('eliminar');
-            for (const x of eliminar){
-                x.addEventListener('click', () => {
-                    const id_tarea = x.value;
-                    $({
-                        url : 'BorrarTarea',
-                        type: "POST",
-                        data : {id_tarea: id_tarea}
-                    })
-                })
-            }
-        </script> -->
-
         <script>
             const btnConfirm = document.getElementById('confirmarEdit')
             btnConfirm.addEventListener('click', async (e) => {
@@ -241,11 +261,13 @@
             }
             await swal("Bien Hecho", "Tu tarea se ha registrado Correctamente", "success")
                     .then(() => {
-                    document.forms["taskForm"].submit();
+                        document.forms["taskForm"].submit();
                     });
             })
         </script> 
 
+        
+        
         <script>
                 $('#exampleModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
@@ -259,7 +281,7 @@
         </script>
         <!-- <script type="module" src="../js/proof.js"></script> -->
         <script type="text/javascript" src="../js/mdb.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>

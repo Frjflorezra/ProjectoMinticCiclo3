@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Datos.TareaDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -56,11 +57,11 @@ public class BorrarTarea extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idTarea = Integer.parseInt(request.getParameter("id_tarea"));
+        TareaDao.EliminarTarea(idTarea);
+        response.sendRedirect("http://localhost:8080/ListaTareas/html/taskList.jsp");
     }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *

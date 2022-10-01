@@ -185,7 +185,6 @@ public class UsuarioDao{
                 String titulo = data.getString("titulo");
                 int prioridad = data.getInt("prioridad"); 
                 int id_tarea = data.getInt("id_tarea"); 
-                System.out.println("MANIII MIRA LA TAREAAAA AQUIII --> " + id_tarea);
                 Tarea tarea = new Tarea(titulo, prioridad, id_tarea, id);
                 System.out.println(tarea.toString());
                 tareas.add(tarea);

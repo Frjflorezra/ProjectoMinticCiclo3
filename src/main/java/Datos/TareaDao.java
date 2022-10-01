@@ -92,4 +92,18 @@ public class TareaDao {
             ex.printStackTrace(System.out);
         }
     }
+    
+    public static void EliminarTarea(int idTarea){
+        String query = "DELETE FROM tarea WHERE id_tarea = ?";
+        try {
+            Connection conn = Conexion.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idTarea);
+            stmt.executeUpdate();
+            conn.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+    }
 }
