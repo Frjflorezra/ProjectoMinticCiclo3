@@ -73,4 +73,25 @@ public class TareaDao {
         }
         return encontrado;
     }    
+    
+    public static void editarTarea(Tarea tarea){
+        String titulo = tarea.getTitulo();
+        int prioridad = tarea.getPrioridad();
+        int id = tarea.getId();
+        String query = "UPDATE tarea SET titulo = ?, prioridad = ? WHERE id_tarea = ?";
+        try {
+            Connection conn = Conexion.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, titulo);
+            stmt.setInt(2, prioridad);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+
+            conn.close();
+            stmt.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+    }
 }

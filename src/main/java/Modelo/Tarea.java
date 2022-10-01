@@ -19,10 +19,10 @@ public class Tarea {
         
     }
 
-    public Tarea(String titulo, int prioridad, int id_owner) {
+    public Tarea(String titulo, int prioridad, int id) {
         this.titulo = titulo;
         this.prioridad = prioridad;
-        this.id_owner = id_owner;
+        this.id = id;
     }
     
     public int validarPrioridad(String dataFormPrioridad){

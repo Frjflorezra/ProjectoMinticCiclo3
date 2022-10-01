@@ -1,5 +1,6 @@
 Datos\UsuarioDao.class
 Datos\Conexion.class
+Servlets\EditarTarea.class
 Servlets\RegistrarUsuario.class
 Datos\TareaDao.class
 Modelo\Usuario.class

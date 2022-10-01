@@ -98,12 +98,15 @@
                                                         msg = "Alta";
                                                         clase = "badge badge-danger";
                                                     }
+                                                    System.out.println("ID TAREA --> " + aux.getId());
                                             %>
                                             <tr>
                                                 <td scope="row"><span class="<%=clase%>"><%=msg%></span></td>
                                                 <td><%=aux.getTitulo()%></td>
                                                 <td>
-                                                    <button type="submit" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id = "<%=aux.getId()%>">
+                                                    <span hidden="true" id = "titulo<%=aux.getId()%>"><%=aux.getTitulo()%></span>
+                                                    <span hidden="true" id = "priority<%=aux.getId()%>"><%=aux.getPrioridad()%></span>
+                                                    <button type="submit" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" value = "<%=aux.getId()%>" name = "editar">
                                                         Editar
                                                     </button>
                                                     <button type="submit" class="btn btn-outline-danger ms-1">Eliminar</button>
@@ -124,20 +127,24 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form>
+                                                    <form name = "FormEditar" action = "EditarTarea" method="post">
                                                         <div class="form-group">
                                                             <label for="message-text" class="col-form-label" style="color : #000 !important;">Titulo de la Tarea</label>
-                                                            <input type="text" class="form-control" id="recipient-name" style="color : #000 !important;">
+                                                            <input name = "tituloE" id = "tituloE" type="text" class="form-control" id="recipient-name" style="color : #000 !important;">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="message-text" class="col-form-label" style="color : #000 !important;">Prioridad</label>
-                                                            <input type="text" class="form-control" id="recipient-name" style="color : #000 !important;">
+                                                            <input name = "prioridadE" id = "priorityE" type="text" class="form-control" id="recipient-name" style="color : #000 !important;">
                                                         </div>
+                                                        <div class="form-group">
+                                                            <input hidden="true" name = "inId" id = "inId" type="text" class="form-control" id="recipient-name">
+                                                        </div>
+                                                        
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                    <button id = "confirmarEdit" type="submit" class="btn btn-primary">Confirmar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,7 +158,51 @@
             </section>
         </div>
 
-        <!-- Script para validar la data del form de la tarea -->
+        <!-- SCRIPT PARA LA CARGAR EL MODAL DE EDICION CON LA DATA RESPECTIVA DE LA TAREA -->
+        <script>
+            const editar = document.getElementsByName('editar');
+            for(const x of editar){
+                x.addEventListener('click' , () => {
+                    const id_tarea = x.value;
+                    const titulo_viejo = document.getElementById('titulo'+id_tarea).textContent;
+                    const prioridad_viejo = document.getElementById('priority'+id_tarea).textContent;
+                    document.getElementById('tituloE').value = titulo_viejo// tendria el ID
+                    document.getElementById('priorityE').value = prioridad_viejo
+                    document.getElementById('inId').value = id_tarea
+                })   
+            }
+        </script>
+        
+        <script>
+            const btnConfirm = document.getElementById('confirmarEdit')
+            btnConfirm.addEventListener('click', async (e) => {
+                e.preventDefault()
+                const titulo = document.forms["FormEditar"]["tituloE"].value;
+                const prioridad = document.forms["FormEditar"]["prioridadE"].value;
+                const nPrio = parseInt(prioridad);
+
+                //VALIDAMOS QUE EL TITULO NO SEA VACIO
+                if (titulo.trim() == "") {
+                    swal("Oops", "El titulo de tu tarea no puede estar vacio", "error");
+                    return;
+                }
+                //VALIDAMOS LA PRIORIDAD
+                if (isNaN(nPrio)) {
+                    swal("Oops", "La prioridad de la Tarea debe ser numerica", "error");
+                    return;
+                }
+                if (nPrio < 0 || nPrio > 100) {
+                    swal("Oops", "La prioridad de la Tarea debe ser entre 0 y 100", "error");
+                    return;
+                }
+                await swal("Bien Hecho", "Tu tarea se ha editado Correctamente", "success")
+                        .then(( ) => {
+                            document.forms["FormEditar"].submit();
+                        });
+            })
+        </script>
+        
+        <!-- SCRIPT PARA LA VALIDACION DE DATOS DE LAS TAREAS A AGREGAR [ES REDUNTANTE PORQUE EN EL BACKEND TAMBIEN SE VALIDAN CON JAVA] -->
         <script>
             const btnSubmit = document.getElementById('zzz');
             btnSubmit.addEventListener('click', async (e) => {
@@ -183,21 +234,22 @@
             })
         </script> 
 
-        <script>
+        <script>            
+
             $('#exampleModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var recipient = button.data('whatever') // Extract info from data-* attributes
                 // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
                 // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
                 var modal = $(this)
-                modal.find('.modal-title').text('New message to ' + recipient)
-                modal.find('.modal-body input').val(recipient)
+                /*modal.find('.modal-title').text('New message to ' + recipient)
+                modal.find('.modal-body input').val("hola mundo")*/
             })
         </script>
         <!-- <script type="module" src="../js/proof.js"></script> -->
         <script type="text/javascript" src="../js/mdb.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -91,7 +91,7 @@ public class RegistrarTarea extends HttpServlet {
         }
         
     }
-
+     
     
     private boolean prioridadValida(String prioridad){
         prioridad = prioridad.trim();
