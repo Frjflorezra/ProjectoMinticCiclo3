@@ -32,12 +32,21 @@
             /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
             background: linear-gradient(to right, rgba(126, 64, 246, 1), rgba(80, 139, 252, 1))
         }
+        .contenedorCerrar{
+            
+            padding: 10px 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .cerrarS {
+            background-color: #262626;
+        }
     </style>
     <%
         String username = session.getAttribute("username").toString();
         int id_user = UsuarioDao.getID(username);
     %>
-    
+   
     <script>
         function eliminarTarea(id){
             swal({
@@ -67,9 +76,12 @@
     </script>
     
     <body class = "gradient-custom-2">
-
+        
+        <div class = "contenedorCerrar">
+            <a class="btn btn-dark" href="http://localhost:8080/ListaTareas/" role="button" onclick = "return logout()">Cerrar Sesion</a>
+        </div>
+        
         <div>
-
             <!-- FORM PARA AÑADIR LAS TAREAS -->
             <section class="vh-100">
                 <div class="container py-5 h-100">
@@ -190,6 +202,23 @@
                 </div>
             </section>
         </div>
+                                            
+        <script>        
+            function logout(){
+                window.history.forward()
+                $(document).ready(function() {
+                    function disableBack() {
+                        window.history.forward()
+                    }
+                    window.onload = disableBack();
+                    window.onpageshow = function(e) {
+                        if (e.persisted)
+                            disableBack();
+                    }
+                });
+                return true;
+            }
+        </script>
 
         <!-- SCRIPT PARA LA CARGAR EL MODAL DE EDICION CON LA DATA RESPECTIVA DE LA TAREA -->
         <script>

@@ -8,4 +8,3 @@ Servlets\RegistrarTarea.class
 Servlets\BorrarTarea.class
 Servlets\ValidarUsuario.class
 Modelo\Tarea.class
-proof.class
